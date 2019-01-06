@@ -23,7 +23,7 @@ app.use(
 )
 ```
 
-You can now `POST` files to `/posty`. Each file will be given a unique id and can be retrieved by `GET`ing `/post/<file_id>`
+You can now `POST` files to `/posty`. Each file will be given a unique id and can be retrieved by `GET`ing `/posty/<file_id>`
 
 ## Advanced Usage
 
