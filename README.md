@@ -2,11 +2,6 @@
 
 A simple express file upload and serve middleware using postgres.
 
-Features
-
-- Creates table in postgres database (default: "posty_file")
-- Analyzes file to determine mimetype and adds appropriate extension'
-
 ## Usage
 
 ```javascript
