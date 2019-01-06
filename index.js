@@ -6,7 +6,10 @@ import uuid from "uuidv4"
 import knex from "knex"
 import path from "path"
 
-const handleGetUpload = ({ db, tableName }) => async (req, res) => {
+const handleGetUpload = ({ db, tableName, authorizeGET }) => async (
+  req,
+  res
+) => {
   let file_id = req.url
     .split("/")
     .slice(-1)[0]
@@ -17,6 +20,8 @@ const handleGetUpload = ({ db, tableName }) => async (req, res) => {
       .select("*")
       .where({ file_id })
       .first()
+
+    if (!authorizeGET(req, fi)) return res.status(401).send("not authorized")
 
     if (!fi) return res.status(404).send("upload not found")
 
@@ -31,8 +36,14 @@ const handleGetUpload = ({ db, tableName }) => async (req, res) => {
   }
 }
 
-const handlePostUpload = ({ db, tableName }) => async (req, res) => {
+const handlePostUpload = ({ db, tableName, authorizePOST }) => async (
+  req,
+  res
+) => {
   const { files, postyAppData } = req
+
+  if (!authorizePOST(req, files.file))
+    return res.status(401).send("not authorized")
 
   const { name: filename, data } = files.file
   const mimeInfo = fileType(data)
@@ -70,6 +81,8 @@ const middlewares = [
 
 module.exports = handle => {
   if (!handle.tableName) handle.tableName = "posty_file"
+  if (!handle.authorizePOST) handle.authorizePOST = () => true
+  if (!handle.authorizeGET) handle.authorizeGET = () => true
   handle.db = knex({
     client: "pg",
     connection: handle.pgCredentials

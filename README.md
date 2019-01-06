@@ -44,7 +44,14 @@ app.use(
     },
 
     // Optional: Specify table name
-    tableName: "posty_file"
+    tableName: "posty_file",
+
+    // Optional: Return true to authorize a file upload
+    authorizePOST: (req, file) => true,
+
+    // Optional: Return true to authorize a file request
+    // `info` contains the row data for the file (app_data, data, created_at etc.)
+    authorizeGET: (req, info) => true
   })
 )
 ```
