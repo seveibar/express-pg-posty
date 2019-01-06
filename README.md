@@ -11,6 +11,7 @@ const pgPosty = require("express-pg-posty")
 const app = express()
 
 app.use(
+  "/posty",
   pgPosty({
     pgCredentials: {
       host: "127.0.0.1",
@@ -21,6 +22,8 @@ app.use(
   })
 )
 ```
+
+You can now `POST` files to `/posty`. Each file will be given a unique id and can be retrieved by `GET`ing `/post/<file_id>`
 
 ## Advanced Usage
 
