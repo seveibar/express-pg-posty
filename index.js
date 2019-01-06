@@ -32,14 +32,20 @@ const handleGetUpload = ({ db, tableName }) => async (req, res) => {
 }
 
 const handlePostUpload = ({ db, tableName }) => async (req, res) => {
-  const { files } = req
+  const { files, postyAppData } = req
 
   const { name: filename, data } = files.file
   const mimeInfo = fileType(data)
   const mimetype = mimeInfo ? mimeInfo.mime : files.file.mimetype
 
   const file_id = (await db(tableName)
-    .insert({ data, file_id: uuid(), mimetype, filename })
+    .insert({
+      data,
+      file_id: uuid(),
+      mimetype,
+      filename,
+      app_data: postyAppData
+    })
     .returning("file_id"))[0]
 
   const extension = filename ? filename.split(".")[1] : mime.extension(mimetype)
