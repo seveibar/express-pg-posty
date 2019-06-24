@@ -1,10 +1,10 @@
 {
   "name": "express-pg-posty",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel index.js -o dist/index.js"
+    "build": "mkdir -p dist && babel index.js -o dist/index.js"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
